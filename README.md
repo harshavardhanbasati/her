@@ -32,9 +32,7 @@ npm run preview
 ## Deploy to Vercel
 1. Push this project to a GitHub repository.
 2. Import the repository in Vercel.
-3. Framework preset: Vite.
-4. Build command: `npm run build`
-5. Output directory: `dist`
+3. Vercel uses the included `vercel.json` to build with `npm run build` and publish the `dist` directory.
 
 ## Customize
 - Edit the birthday copy and letter in `src/App.jsx`.
