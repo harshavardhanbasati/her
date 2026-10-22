@@ -22,28 +22,17 @@ function Book() {
   );
 }
 
-function Player({ triggerRef }) {
+function Player() {
   const audio = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [notice, setNotice] = useState('');
 
   useEffect(() => {
-    const birthdaySection = triggerRef.current;
-    if (!birthdaySection) return undefined;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-
-      observer.disconnect();
-      audio.current?.play().catch(() => {
-        setNotice('Automatic playback was blocked. Press play to start the song.');
-      });
-    }, { threshold: 0.2 });
-
-    observer.observe(birthdaySection);
-    return () => observer.disconnect();
-  }, [triggerRef]);
+    audio.current?.play().catch(() => {
+      setNotice('Your browser blocked automatic playback. Press play to start the song.');
+    });
+  }, []);
 
   async function toggle() {
     if (!audio.current) return;
@@ -67,6 +56,7 @@ function Player({ triggerRef }) {
       <audio
         ref={audio}
         src="/audio/blue.mp3"
+        autoPlay
         loop
         muted={muted}
         onPlay={() => setPlaying(true)}
@@ -119,8 +109,6 @@ const memories = [
 ];
 
 export default function App() {
-  const birthdayRef = useRef(null);
-
   return (
     <main>
       <nav>
@@ -168,7 +156,7 @@ export default function App() {
           ))}
         </div>
       </section>
-      <section className="birthday" id="birthday" ref={birthdayRef}>
+      <section className="birthday" id="birthday">
         <span className="sparkle s1">✦</span>
         <span className="sparkle s2">✧</span>
         <p className="eyebrow">The final page · today is yours</p>
@@ -176,7 +164,7 @@ export default function App() {
         <h2>Happy Birthday,<br /><em>Rithisha.</em></h2>
         <p className="wish">May this next chapter bring you gentle mornings, unexpected happiness, stories you can’t put down, and a hundred little reasons to smile.</p>
         <p className="signoff">Wishing you a beautiful year ahead <span>♡</span></p>
-        <div className="music"><Player triggerRef={birthdayRef} /></div>
+        <div className="music"><Player /></div>
         <section className="birthday-verse" aria-label="An original birthday verse">
           <p className="eyebrow">A little birthday song</p>
           <p>
